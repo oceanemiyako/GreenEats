@@ -1,8 +1,9 @@
 :root {
-  --red: #E32B15;
-  --green-button: #0FEC8F;
+  --button-inactive: rgb(227 36 21 / 76%) ;
+  --button-active: #E32B15;
+  --bg-footer-header: rgb(15 236 143 / 10%);
+  --green :#0B9D60;
   --dark-green: #006633;
-  --light-green :#0B9D60;
 }
 
 * {
@@ -21,5 +22,5 @@ div#app {
     width: 100%;
     display: flex;
     flex-flow: column nowrap;
-    
+    justify-content: space-between;   
 }

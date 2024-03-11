@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/views/HomePage.vue";
 import Connection from "@/views/Connection.vue";
+import Scan from "@/views/Scan.vue";
+import Favorites from "@/views/Favorites.vue";
+import Search from "@/views/Search.vue";
+import History from "@/views/History.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +18,27 @@ const router = createRouter({
       path:"/connection",
       name: "connection",
       component: Connection
-    }
+    },
+    {
+      path:"/scan",
+      name: "scan",
+      component: Scan
+    },
+    {
+      path:"/favorites",
+      name: "favorites",
+      component: Favorites
+    },
+    {
+      path:"/search",
+      name: "search",
+      component: Search
+    },
+    {
+      path:"/history",
+      name: "history",
+      component: History
+    },
   ],
 });
 

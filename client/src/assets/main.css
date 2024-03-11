@@ -1,0 +1,25 @@
+:root {
+  --red: #E32B15;
+  --green-button: #0FEC8F;
+  --dark-green: #006633;
+  --light-green :#0B9D60;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+div#app {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    
+}

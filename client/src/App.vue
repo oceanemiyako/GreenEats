@@ -14,11 +14,31 @@ import { RouterLink, RouterView } from "vue-router";
   </main>
   <footer>
     <nav>
-      <router-link to="/scan"><img src="@/img/scan.png"></router-link>
-      <router-link to="/history"><img src="@/img/history.png"></router-link>
-      <router-link to="/favorites"><img src="@/img/favorite.png"></router-link>
-      <router-link to="/search"><img src="@/img/search.png"></router-link>
-  </nav>
+      <router-link to="/scan"
+        ><div class="img-p">
+          <img src="@/img/scan.png" />
+          <p>Scan</p>
+        </div></router-link
+      >
+      <router-link to="/history"
+        ><div class="img-p">
+          <img src="@/img/history.png" />
+          <p>History</p>
+        </div></router-link
+      >
+      <router-link to="/favorites"
+        ><div class="img-p">
+          <img src="@/img/favorite.png" />
+          <p>Favorites</p>
+        </div></router-link
+      >
+      <router-link to="/search"
+        ><div class="img-p">
+          <img src="@/img/search.png" />
+          <p>Search</p>
+        </div></router-link
+      >
+    </nav>
   </footer>
 </template>
 
@@ -50,5 +70,24 @@ footer {
   height: 100px;
   width: 100%;
   background-color: var(--bg-footer-header);
+
+  > nav {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+}
+
+div.img-p {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  > p {
+    text-decoration: none;
+  }
 }
 </style>

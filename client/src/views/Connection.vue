@@ -60,7 +60,9 @@ const submitDisabled = computed(
 
         <button :disabled="submitDisabled" class="submit-button">Submit</button>
     </form>
+    <router-link to="/sign-up"><button>Sign Up</button></router-link>
 </div>
+
 </template>
 
 

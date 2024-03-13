@@ -50,7 +50,7 @@ function submitForm(){
 
     <hr>
 
-    <div>
+    <div class="input-wrapper">
         <label for="username">Username: </label>
     <input
         v-model="username"
@@ -64,7 +64,7 @@ function submitForm(){
         <span v-if="usernameInvalid">Username is required!</span>
     </div>
 
-    <div>
+    <div class="input-wrapper">
         <label for="password">Password: </label>
     <input
         v-model="password"
@@ -79,7 +79,7 @@ function submitForm(){
     </div>
 
         <button :disabled="submitDisabled" class="submit-button">Submit</button>
-        <router-link to="/sign-up"><button>Sign Up</button></router-link>
+        <router-link  to="/sign-up"><button class="sign-up-button">Sign Up</button></router-link>
 
     </form>
 </div>
@@ -102,11 +102,20 @@ font-family: 'Acumin Variable Concept', sans-serif;
     margin-top: 0; 
 }
 
-.submit-button {
+.submit-button, .sign-up-button {
     background-color: #E32B15; 
     color: white; 
     float: right; 
+    border-radius: 5px; 
+    padding: 8px 16px; 
+    margin-top: 20px;
+    width: 100px; 
 }
+
+.sign-up-button {
+    margin-right: 10px; 
+}
+
 
 hr {
     color: #0B9D60; 
@@ -123,4 +132,18 @@ hr {
     margin-bottom: 10px; 
 }
 
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-wrapper label {
+    width: 120px; 
+    margin-right: 5px;
+}
+
+.input-wrapper input {
+    flex: 1;
+}
 </style>

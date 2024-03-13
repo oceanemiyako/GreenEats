@@ -27,6 +27,8 @@ const emailInvalid = computed(() => {
     return emailTouched.value && !isValidEmail(email.value.trim());
 });
 
+const showModal = ref(false);
+
 const submitDisabled = computed(
 () =>
     password.value === "" ||
@@ -53,6 +55,13 @@ function submitForm() {
         };
     userStore.registerUser(newUser);
 
+    showModal.value = true;
+    setTimeout(() => {
+        closeModal();
+        router.push({ name: "connection" });
+    }, 3000);
+    console.log(showModal.value);
+
     email.value = "";
         emailTouched.value = false;
         username.value = "";
@@ -61,8 +70,11 @@ function submitForm() {
         passwordTouched.value = false;
         status.value = "";
         statusTouched.value = false;
-    router.push({ name: "connection" });
     }
+}
+
+function closeModal(){
+    showModal.value = false;
 }
 
 </script>
@@ -74,7 +86,7 @@ function submitForm() {
 
     <hr>
 
-    <div>
+    <div class="input-wrapper">
         <label for="email">Email: </label>
         <input
             v-model="email"
@@ -88,7 +100,7 @@ function submitForm() {
         <span v-if="emailInvalid">Email is invalid!</span>
     </div>
 
-    <div>
+    <div class="input-wrapper">
         <label for="username">Pseudo: </label>
         <input
             v-model="username"
@@ -102,7 +114,7 @@ function submitForm() {
         <span v-if="usernameInvalid">Username is required!</span>
     </div>
 
-    <div>
+    <div class="input-wrapper">
         <label for="password">Password: </label>
         <input
             v-model="password"
@@ -116,7 +128,7 @@ function submitForm() {
         <span v-if="passwordInvalid">Password is invalid!</span>
     </div>
 
-    <div>
+    <div class="input-wrapper">
         <label for="status">Régime/Statut: </label>
         <select
             v-model="status"
@@ -136,18 +148,32 @@ function submitForm() {
 
     <button :disabled="submitDisabled" class="submit-button">Sign Up</button>
     </form>
+
+    <div v-if="showModal === true" class="modal">
+    <div class="modal-content">
+        <span class="close" @click="closeModal">&times;</span>
+        <p>Bravo ! Ton compte est maintenant crée !</p>
+        <img src="../img/happyTom.png" alt="Happy Tomate">
+        <p> Bienvenue dans la communauté GREEN EATS !</p>
+    </div>
+    </div>
+
 </div>
 </template>
+
 
 <style scoped>
 
 .container {
-display: flex;
+display: block;
 justify-content: center;
 align-items: center;
 height: 35vh;
 color: #0B9D60; 
 font-family: 'Acumin Variable Concept', sans-serif;
+width: 300px; 
+margin: 0 auto;
+
 }
 
 .form-title {
@@ -158,6 +184,10 @@ font-family: 'Acumin Variable Concept', sans-serif;
     background-color: #E32B15; 
     color: white; 
     float: right; 
+    border-radius: 5px; 
+    padding: 8px 16px; 
+    margin-top: 20px;
+    width: 100px; 
 }
 
 hr {
@@ -174,11 +204,52 @@ hr {
     padding: 5px; 
     margin-bottom: 10px; 
 }
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-label
-{
-	display: block;
-	width: 150px;
-	float: left;
+.input-wrapper label {
+    width: 120px; 
+    margin-right: 5px;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    flex: 1;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    font-family: 'Acumin Variable Concept', sans-serif;
+    align-items: center;
+    background-color: #daf4db;
+}
+
+.modal-content {
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 300px;
+}
+
+.modal-content img {
+    max-width: 100%; 
+    height: auto; 
+}
+.close {
+    color: #daf4db;
+    float: right;
+    font-size: 28px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 </style>

@@ -1,4 +1,5 @@
 export type item = {
+    img: string,
     id: number;
     name: string;
     allergens: string;

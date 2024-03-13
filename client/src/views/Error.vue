@@ -1,5 +1,5 @@
 <script setup>
-    // import BoutonError from '@/components/BoutonError.vue'
+import Button from '../components/Button.vue'
 </script>
 
 <template>
@@ -10,7 +10,8 @@
         <img class="tomato" src="../img/Errorpage.jpg" alt="Page erreur">
     </div>
 
-    <button class="btn">Nouvelle saisie</button>
+<Button @click="$emit('someEvent')">Nouvelle saisie</Button>
+<MyComponent @some-event="callback" />
 
 
 </template>
@@ -45,4 +46,4 @@
         background-color: var(--button-active);
         color: beige;
     }
-</style>
+</style>../components/Button.vue

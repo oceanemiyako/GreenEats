@@ -1,5 +1,10 @@
 <script setup>
 import { ref, computed } from "vue";
+import { useUserStore } from "../stores/user.js";
+import router from '../router/router.ts';
+
+
+const userStore = useUserStore();
 
 const email = ref("");
 const emailTouched = ref(false);
@@ -37,12 +42,35 @@ const submitDisabled = computed(
 function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+function submitForm() {
+    if (!submitDisabled.value){
+        const newUser ={
+            email: email.value.trim(),
+            username: username.value.trim(),
+            password: password.value.trim(),
+            status: status.value 
+        };
+    userStore.registerUser(newUser);
+
+    email.value = "";
+        emailTouched.value = false;
+        username.value = "";
+        usernameTouched.value = false;
+        password.value = "";
+        passwordTouched.value = false;
+        status.value = "";
+        statusTouched.value = false;
+    router.push({ name: "connection" });
+    }
+}
+
 </script>
 
 <template>
     <div class="container">
-    <form action="#">
-    <h3 class="form-title">Inscription</h3>
+    <form @submit.prevent="submitForm">
+    <h3 class="form-title">Sign Up</h3>
 
     <hr>
 

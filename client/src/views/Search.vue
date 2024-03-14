@@ -3,10 +3,10 @@
 
     import { ref } from "vue";
 let input = ref("");
-const fruits = ["apple", "banana", "orange"];
+const aliments = ["biscuits", "banane", "chocolat"];
 function filteredList() {
-  return fruits.filter((fruit) =>
-    fruit.toLowerCase().includes(input.value.toLowerCase())
+  return aliments.filter((aliment) =>
+    aliment.toLowerCase().includes(input.value.toLowerCase())
   );
 }
 </script>
@@ -18,8 +18,8 @@ function filteredList() {
 
 
 <input type="text" v-model="input" placeholder="Rechercher un aliment..." />
-  <div class="item fruit" v-for="fruit in filteredList()" :key="fruit">
-    <p>{{ fruit }}</p>
+  <div class="item aliment" v-for="aliment in filteredList()" :key="fruit">
+    <p>{{ aliment }}</p>
   </div>
   <div class="item error" v-if="input&&!filteredList().length">
      <p>No results found!</p>
@@ -62,12 +62,12 @@ input {
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-.fruit {
+.aliment {
   background-color: var(--green);
   cursor: pointer;
 }
 
-.fruit:hover {
+.aliment:hover {
   background-color: var(--dark-green);
   cursor: pointer;
 }

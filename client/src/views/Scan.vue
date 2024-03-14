@@ -18,11 +18,14 @@ const fetchProductData = async (param) => {
 
   const productInfos = {
     img: data.image_url,
-    id: data.id,
+    marque: data.brands,
+    vegan: data.ingredients_analysis,
     name: data.product_name,
     allergens: data.allergens,
     ingredients: data.ingredients_text_debug,
     palmOil: data.ingredients_from_palm_oil_n,
+    carbone: data.carbon_footprint_percent_of_known_ingredient_debug,
+    nutriScore: data.nutriscore_grade,
   };
   console.log(productInfos);
   productFound.push({ ...productInfos });
@@ -63,14 +66,51 @@ const addProductToFav = () => {
     </form>
   </div>
   <div v-else class="product-display" v-for="p in productFound">
-    <p>{{ p.name }}</p>
-    <p>{{ p.id }}</p>
+    <p class="name">{{ p.name }}</p>
+    <hr>
+    <p class="marque">{{ p.marque }}</p>
+    <img :src=" p.img " alt="image">
+    Ingrédients :
+    <p>{{ p.ingredients }}</p>
+    <p>{{ p.nutriScore }}</p>
     <button @click="clearProductFound">Close</button>
     <button @click="addProductToFav">Add to fav</button>
   </div>
 </template>
 
 <style scoped>
+
+button {
+  padding: 5px;
+  background-color: var(--button-active);
+  color: beige;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  transition: background-color 400ms ease-out;
+  font-size: large;
+}
+
+button:hover {
+  background-color: var(--button-inactive);
+  cursor: pointer;
+}
+
+.name {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.marque {
+  font-style: oblique;
+}
+
+img {
+width: 100px;
+}
+
+.product-display {
+color: var(--dark-green);
+}
 div.barcode-input {
   height: 100%;
 

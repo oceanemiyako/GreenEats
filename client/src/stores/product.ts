@@ -3,15 +3,15 @@ import { ref, computed } from "vue";
 import type { item } from "@/catalog/type";
 
 export const useProductStore = defineStore("product", () => {
-  const products = ref<item[]>([]);
+  const favorites = ref<item[]>([]);
   const history = ref<item[]>([]);
 
-  const addToProduct = (obj: item) => {
-    products.value.push(obj);
+  const addToFavorites = (obj: item) => {
+    favorites.value.push(obj);
   };
 
   const addToHistory = (obj: item) => {
     history.value.push(obj);
   };
-  return { products, history, addToProduct, addToHistory };
+  return { favorites, history, addToFavorites, addToHistory };
 });

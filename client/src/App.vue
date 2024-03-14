@@ -73,6 +73,10 @@ header {
   width: 100%;
 }
 
+main {
+ height: 100%;
+}
+
 footer {
   height: 100px;
   width: 100%;

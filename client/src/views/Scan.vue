@@ -1,5 +1,4 @@
 <script setup>
-import ProductInfos from "@/components/ProductInfos.vue";
 import axios from "axios";
 import { ref, reactive } from "vue";
 import { useProductStore } from "@/stores/product";
@@ -21,7 +20,7 @@ const fetchProductData = async (param) => {
     img: data.image_url,
     id: data.id,
     name: data.product_name,
-    allergens: data.alergens,
+    allergens: data.allergens,
     ingredients: data.ingredients_text_debug,
     palmOil: data.ingredients_from_palm_oil_n,
   };
@@ -47,7 +46,7 @@ const addProductToFav = () => {
 <template>
   <div v-if="productFound.length === 0" class="barcode-input">
     <form @submit.prevent="fetchProductData(barcode)">
-      <div>
+      <div class="label-input">
         <label for="barcode">Barcode :</label>
         <input
           v-model="barcode"
@@ -71,4 +70,27 @@ const addProductToFav = () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+div.barcode-input {
+  height: 100%;
+
+  > form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+div.label-input {
+  display: flex;
+  flex-flow: column nowrap;
+
+  > label {
+    margin-bottom: 5px;
+  }
+}
+</style>

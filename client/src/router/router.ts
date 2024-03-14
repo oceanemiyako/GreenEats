@@ -6,6 +6,8 @@ import Favorites from "@/views/Favorites.vue";
 import Search from "@/views/Search.vue";
 import History from "@/views/History.vue";
 import SignUp from "@/views/SignUp.vue";
+import Profile from "@/views/Profile.vue";
+import Error from "@/views/Error.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,10 +43,21 @@ const router = createRouter({
       component: History
     },
     {
+      path:"/:pathMatch(.*)*",
+      name: "error",
+      component: Error
+    },
+    {
       path:"/sign-up",
       name: "sign-up",
       component: SignUp
     },
+    {
+      path:"/profile",
+      name: "profile",
+      component: Profile
+    },
+
   ],
 });
 

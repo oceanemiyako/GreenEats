@@ -1,5 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
+import { useUserStore } from "../stores/user.js"
+import router from '../router/router.ts';
+
+const userStore = useUserStore();
 
 const username = ref("");
 const usernameTouched = ref(false);
@@ -21,16 +25,32 @@ const submitDisabled = computed(
     !usernameTouched.value ||
     username.value.trim() === ""
 );
+
+function submitForm(){
+    if (!submitDisabled.value){
+        const credentials = {
+            username: username.value.trim(),
+            password: password.value.trim(),
+        };
+        const success = userStore.loginUser(credentials);
+    if (success) {
+        router.push({ name: "Home" });
+    } else {
+        alert("Invalid username or password !");
+    }    
+    }
+}
+
 </script>
 
 <template>
     <div class="container">
-    <form action="#">
+    <form @submit.prevent="submitForm">
     <h3 class="form-title">Sign In</h3>
 
     <hr>
 
-    <div>
+    <div class="input-wrapper">
         <label for="username">Username: </label>
     <input
         v-model="username"
@@ -44,7 +64,7 @@ const submitDisabled = computed(
         <span v-if="usernameInvalid">Username is required!</span>
     </div>
 
-    <div>
+    <div class="input-wrapper">
         <label for="password">Password: </label>
     <input
         v-model="password"
@@ -59,8 +79,9 @@ const submitDisabled = computed(
     </div>
 
         <button :disabled="submitDisabled" class="submit-button">Submit</button>
+        <router-link  to="/sign-up"><button class="sign-up-button">Sign Up</button></router-link>
+
     </form>
-    <router-link to="/sign-up"><button>Sign Up</button></router-link>
 </div>
 
 </template>
@@ -81,11 +102,20 @@ font-family: 'Acumin Variable Concept', sans-serif;
     margin-top: 0; 
 }
 
-.submit-button {
+.submit-button, .sign-up-button {
     background-color: #E32B15; 
     color: white; 
     float: right; 
+    border-radius: 5px; 
+    padding: 8px 16px; 
+    margin-top: 20px;
+    width: 100px; 
 }
+
+.sign-up-button {
+    margin-right: 10px; 
+}
+
 
 hr {
     color: #0B9D60; 
@@ -100,5 +130,20 @@ hr {
     border: none; 
     padding: 5px; 
     margin-bottom: 10px; 
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-wrapper label {
+    width: 120px; 
+    margin-right: 5px;
+}
+
+.input-wrapper input {
+    flex: 1;
 }
 </style>

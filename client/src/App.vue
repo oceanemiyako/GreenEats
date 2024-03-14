@@ -1,5 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+import { useUserStore } from "./stores/user.js";
+import { computed } from "vue";
+
+const userStore = useUserStore();
+const isAuthenticated = computed(() => !!userStore.currentUser);
+
 </script>
 
 <template>
@@ -7,7 +13,8 @@ import { RouterLink, RouterView } from "vue-router";
     <router-link class="router-logo" to="/"
       ><img class="logo" src="@/img/logo.png"
     /></router-link>
-    <router-link to="/connection"><img src="@/img/profile.png" /></router-link>
+    <router-link v-if="isAuthenticated" to="/profile"><img src="@/img/profile.png" /></router-link>
+    <router-link v-else to="/connection"><img src="@/img/profile.png" /></router-link>
   </header>
   <main>
     <router-view></router-view>

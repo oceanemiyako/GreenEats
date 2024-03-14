@@ -75,6 +75,7 @@ header {
 
 main {
  height: 100%;
+ overflow: auto;
 }
 
 footer {

@@ -10,15 +10,30 @@ const { history } = storeToRefs(store);
   <div v-if="history.length === 0">
     <p>Search history is empty.</p>
   </div>
-  <div v-else v-for="h in history">
-    <div class="card">
+  <div class="container" v-else >
+    <div class="card" v-for="h in history">
       <img :src="h.img" alt="product-image" />
       <p>{{ h.name }}</p>
-      <p>{{ h.ingredients }}</p>
-      <p>{{ h.allergens }}</p>
-      <p>{{ h.palmOil }}</p>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+div.container {
+  height: 100%;
+  
+
+}
+
+div.card {
+  height: 20%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  border-bottom: 1px solid black;
+
+  > img {
+    height: 80%;
+  }
+}
+</style>

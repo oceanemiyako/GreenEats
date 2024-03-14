@@ -245,6 +245,10 @@ hr {
     padding: 20px;
     width: 80%;
     max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content img {

@@ -8,22 +8,23 @@ const store = useProductStore();
 const { addToProduct, addToHistory } = store;
 
 const barcode = ref(0);
-const productFound = ref({});
-const productInfos = reactive({
-  img: productFound.value.image_url,
-  id: productFound.value.id,
-  name: productFound.value.product_name,
-  allergens: productFound.value.allergens,
-  ingredients: productFound.value.ingredients_text_en,
-  palmOil: productFound.value.ingredients_from_palm_oil_n,
-});
 
 const fetchProductData = async (param) => {
   const result = await axios.get(
     `https://world.openfoodfacts.org/api/v2/product/${param}.json`
   );
-  productFound.value = result.data.product;
-  console.log(productFound.value);
+  const data = result.data.product;
+  console.log(data);
+  const productInfos = {
+    img: data.image_url,
+    id: data.id,
+    name: data.product_name,
+    allergens: data.alergens,
+    ingredients: data.ingredients_text_debug,
+    palmOil: data.ingredients_from_palm_oil_n,
+  };
+  console.log(productInfos);
+  addToHistory({ ...productInfos });
 };
 </script>
 
@@ -38,7 +39,7 @@ const fetchProductData = async (param) => {
     </form>
   </div>
   <div class="product-infos">
-    <ProductInfos v-for="p in productInfos" :product="p" />
+    <!-- <ProductInfos v-for="p in productInfos" :product="p" /> -->
   </div>
 </template>
 

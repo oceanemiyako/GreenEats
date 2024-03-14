@@ -24,18 +24,18 @@ CREATE TABLE IF NOT EXISTS favory (
     user_id INT,
     product_id INT,
     product_name VARCHAR(250),
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id)
+    CONSTRAINT fk_favory_user_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_favory_product_id FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
 CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     product_id INT,
-	search_term VARCHAR(255),
+    search_term VARCHAR(255),
     dateSearch TIMESTAMP,
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id)
+    CONSTRAINT fk_history_user_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_history_product_id FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
 

@@ -94,7 +94,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 height: 35vh;
-color: #0B9D60; 
+color: #006633; 
 font-family: 'Acumin Variable Concept', sans-serif;
 }
 
@@ -104,12 +104,19 @@ font-family: 'Acumin Variable Concept', sans-serif;
 
 .submit-button, .sign-up-button {
     background-color: #E32B15; 
-    color: white; 
+    color: beige; 
     float: right; 
     border-radius: 5px; 
-    padding: 8px 16px; 
-    margin-top: 20px;
+    border: 1px solid transparent;
+    padding: 5px; 
+    transition: background-color 400ms ease-out;
+    font-size: large;
+    margin-top: 20px; 
     width: 100px; 
+}
+
+.submit-button, .sign-up-button :hover {
+    background-color: #E32B15 ;
 }
 
 .sign-up-button {

@@ -58,7 +58,7 @@ function goToHome() {
     justify-content: center;
     align-items: center;
     height: 100%;
-    color: #0B9D60; 
+    color: #006633; 
 }
 
 .profile-box {
@@ -89,12 +89,18 @@ function goToHome() {
 
 .profile-button {
     background-color: #E32B15; 
-    color: white; 
-    border: none; 
+    color: beige; 
+    border: 1px solid transparent; 
     border-radius: 5px;
-    padding: 8px 16px;
+    padding: 5px;
+    transition: background-color 400ms ease-out;
+    font-size: large;
     margin-top: 10px;
     margin: 5px;
+}
+
+.profile-button:hover {
+    background-color: #E32B15;
 }
 
 hr {

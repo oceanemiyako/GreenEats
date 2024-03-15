@@ -9,7 +9,7 @@
 <style scoped>
 
 button {
-  padding: 5px;
+  padding: .5rem 1rem;
   background-color: var(--button-active);
   color: beige;
   border-radius: 5px;

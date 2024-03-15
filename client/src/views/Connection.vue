@@ -75,11 +75,11 @@ function submitForm(){
         required
         class="input-field"
     />
-        <span v-if="passwordInvalid">Invalid password!</span>
+    <div class="error" v-if="passwordInvalid">Invalid password!</div>
     </div>
 
-        <button :disabled="submitDisabled" class="submit-button">Submit</button>
-        <router-link  to="/sign-up"><button class="sign-up-button">Sign Up</button></router-link>
+    <button :disabled="submitDisabled" class="submit-button">Submit</button>
+    <router-link class="sign-up-button" to="/sign-up">Sign Up</router-link>
 
     </form>
 </div>
@@ -96,6 +96,10 @@ align-items: center;
 height: 35vh;
 color: #006633; 
 font-family: 'Acumin Variable Concept', sans-serif;
+padding: 1.5rem;
+}
+.container form {
+    width: 100%;
 }
 
 .form-title {
@@ -120,7 +124,9 @@ font-family: 'Acumin Variable Concept', sans-serif;
 }
 
 .sign-up-button {
-    margin-right: 10px; 
+    margin-right: 10px;
+    text-decoration: none;
+    text-align: center;
 }
 
 
@@ -132,17 +138,22 @@ hr {
 }
 
 .input-field {
-    background-color: #0FEC8F; 
-    opacity: 25%;
+    background-color: #c4fbe4!important; 
     border: none; 
     padding: 5px; 
-    margin-bottom: 10px; 
+}
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+    width: 100%;
 }
 
 .input-wrapper {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .input-wrapper label {

@@ -66,13 +66,16 @@ const addProductToFav = () => {
     </form>
   </div>
   <div v-else class="product-display" v-for="p in productFound">
-    <p class="name">{{ p.name }}</p>
+    <p class="product-display__name">{{ p.name }}</p>
     <hr>
-    <p class="marque">{{ p.marque }}</p>
-    <img :src=" p.img " alt="image">
+    <p class="product-display__marque">{{ p.marque }}</p>
+    
+    <div class="product-display__image">
+      <img :src=" p.img " alt="image">
+    </div>
     Ingrédients :
     <p>{{ p.ingredients }}</p>
-    <p>{{ p.nutriScore }}</p>
+    <p class="nutriscore">Nutriscore&nbsp;: <span>{{ p.nutriScore }}</span></p>
     <button @click="clearProductFound">Close</button>
     <button @click="addProductToFav">Add to fav</button>
   </div>
@@ -94,22 +97,39 @@ button:hover {
   background-color: var(--button-inactive);
   cursor: pointer;
 }
-
-.name {
+.product-display__name {
   font-size: larger;
   font-weight: bold;
 }
-
-.marque {
+.product-display__marque {
   font-style: oblique;
 }
-
-img {
-width: 100px;
+.product-display__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-display__image img {
+  width: 100px;
 }
 
+
 .product-display {
-color: var(--dark-green);
+  color: var(--dark-green);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+.nutriscore {
+  border: 1px solid var(--dark-green);
+  border-radius: 2rem;
+  padding: .25rem .5rem;
+  align-self: flex-start;
+}
+
+.nutriscore span {
+  text-transform: capitalize;
 }
 div.barcode-input {
   height: 100%;
@@ -123,6 +143,12 @@ div.barcode-input {
     align-items: center;
     gap: 20px;
   }
+}
+div.barcode-input input {
+  border: 1px solid var(--dark-green);
+  padding: .5rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
 }
 
 div.label-input {

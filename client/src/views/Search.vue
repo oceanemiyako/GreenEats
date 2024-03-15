@@ -12,26 +12,36 @@ function filteredList() {
 </script>
 
 <template>
-
-  <h2>Rechercher un aliment</h2>
-  <hr/>
-
-
-<input type="text" v-model="input" placeholder="Rechercher un aliment..." />
-  <div class="item aliment" v-for="aliment in filteredList()" :key="fruit">
-    <p>{{ aliment }}</p>
+  <div class="container">
+    
+    <h2>Rechercher un aliment</h2>
+    <hr/>
+    
+    
+    <input type="text" v-model="input" placeholder="Rechercher un aliment..." />
+    <div class="item aliment" v-for="aliment in filteredList()" :key="fruit">
+      <p>{{ aliment }}</p>
+    </div>
+    <div class="item error" v-if="input&&!filteredList().length">
+      <p>No results found!</p>
+    </div>
+    
+    <div class="button-container">
+      <Button @click="$emit('someEvent')">Rechercher</Button>
+    </div>
+    <!-- <MyComponent @some-event="callback" /> -->
   </div>
-  <div class="item error" v-if="input&&!filteredList().length">
-     <p>No results found!</p>
-  </div>
-
-<Button @click="$emit('someEvent')">Rechercher</Button>
-<MyComponent @some-event="callback" />
 
 </template>
 
 <style scoped>
-
+.container {
+  padding: 1.5rem;
+}
+.container .button-container {
+  max-width: 350px;
+  margin: 20px auto;
+}
 body {
   padding: 20px;
   min-height: 100vh;

@@ -26,6 +26,11 @@ div#app {
     justify-content: space-between;   
 }
 
+.content-center {
+    display: grid;
+    place-content: center;
+}
+
 
 
 

@@ -1,9 +1,11 @@
 <script setup>
-    import Button from '../components/Button.vue'
+import Button from '../components/Button.vue';
+import { ref } from "vue";
 
-    import { ref } from "vue";
 let input = ref("");
+
 const aliments = ["biscuits", "banane", "chocolat"];
+
 function filteredList() {
   return aliments.filter((aliment) =>
     aliment.toLowerCase().includes(input.value.toLowerCase())

@@ -21,25 +21,25 @@ const isAuthenticated = computed(() => !!userStore.currentUser);
   </main>
   <footer>
     <nav>
-      <router-link to="/scan"
+      <router-link class="router" to="/scan"
         ><div class="img-p">
           <img src="@/img/scan.png" />
           <p>Scan</p>
         </div></router-link
       >
-      <router-link to="/history"
+      <router-link class="router" to="/history"
         ><div class="img-p">
           <img src="@/img/history.png" />
           <p>History</p>
         </div></router-link
       >
-      <router-link to="/favorites"
+      <router-link class="router" to="/favorites"
         ><div class="img-p">
           <img src="@/img/favorite.png" />
           <p>Favorites</p>
         </div></router-link
       >
-      <router-link to="/search"
+      <router-link class="router" to="/search"
         ><div class="img-p">
           <img src="@/img/search.png" />
           <p>Search</p>
@@ -59,6 +59,15 @@ header {
   align-items: center;
   padding: 0 10px;
   background-color: var(--bg-footer-header);
+}
+
+.router {
+    text-decoration: none;
+    color: var(--green);
+}
+
+.router.router-link-active {
+    color: var(--dark-green);
 }
 
 .router-logo {
@@ -97,9 +106,5 @@ div.img-p {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-
-  > p {
-    text-decoration: none;
-  }
 }
 </style>

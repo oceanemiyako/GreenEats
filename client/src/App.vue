@@ -5,7 +5,6 @@ import { computed } from "vue";
 
 const userStore = useUserStore();
 const isAuthenticated = computed(() => !!userStore.currentUser);
-
 </script>
 
 <template>
@@ -13,8 +12,12 @@ const isAuthenticated = computed(() => !!userStore.currentUser);
     <router-link class="router-logo" to="/"
       ><img class="logo" src="@/img/logo.png"
     /></router-link>
-    <router-link v-if="isAuthenticated" to="/profile"><img src="@/img/profile.png" /></router-link>
-    <router-link v-else to="/connection"><img src="@/img/profile.png" /></router-link>
+    <router-link v-if="isAuthenticated" to="/profile"
+      ><img src="@/img/profile.png"
+    /></router-link>
+    <router-link v-else to="/connection"
+      ><img src="@/img/profile.png"
+    /></router-link>
   </header>
   <main>
     <router-view></router-view>
@@ -62,12 +65,12 @@ header {
 }
 
 .router {
-    text-decoration: none;
-    color: var(--green);
+  text-decoration: none;
+  color: var(--green);
 }
 
 .router.router-link-active {
-    color: var(--dark-green);
+  color: var(--dark-green);
 }
 
 .router-logo {
@@ -83,12 +86,10 @@ header {
 }
 
 main {
- height: 100%;
- width: 100%;
- overflow: auto;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 }
-
-
 
 footer {
   height: 100px;

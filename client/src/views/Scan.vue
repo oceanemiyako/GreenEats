@@ -60,6 +60,7 @@ const addProductToFav = () => {
         />
         <datalist id="codebar-values">
           <option value="7622210449283"></option>
+          <option value="3175680011480"></option>
         </datalist>
       </div>
       <button>Submit</button>

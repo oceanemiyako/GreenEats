@@ -15,49 +15,48 @@ const router = createRouter({
     {
       path: "/",
       name: "Home",
-      component: HomePage
+      component: HomePage,
     },
     {
-      path:"/connection",
+      path: "/connection",
       name: "connection",
-      component: Connection
+      component: Connection,
     },
     {
-      path:"/scan",
+      path: "/scan",
       name: "scan",
-      component: Scan
+      component: Scan,
     },
     {
-      path:"/favorites",
+      path: "/favorites",
       name: "favorites",
-      component: Favorites
+      component: Favorites,
     },
     {
-      path:"/search",
+      path: "/search",
       name: "search",
-      component: Search
+      component: Search,
     },
     {
-      path:"/history",
+      path: "/history",
       name: "history",
-      component: History
+      component: History,
     },
     {
-      path:"/:pathMatch(.*)*",
+      path: "/:pathMatch(.*)*",
       name: "error",
-      component: Error
+      component: Error,
     },
     {
-      path:"/sign-up",
+      path: "/sign-up",
       name: "sign-up",
-      component: SignUp
+      component: SignUp,
     },
     {
-      path:"/profile",
+      path: "/profile",
       name: "profile",
-      component: Profile
+      component: Profile,
     },
-
   ],
 });
 

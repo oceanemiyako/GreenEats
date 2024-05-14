@@ -1,21 +1,20 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    const User = sequelize.define("User", {
+    const UserFavorite = sequelize.define("User_Favorite", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        username: {
-            type: DataTypes.STRING,
+        user_id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true
         },
-        password: {
+        barcode: {
             type: DataTypes.STRING,
             allowNull: false,
         },
     });
-    return User;
+    return UserFavorite;
 };

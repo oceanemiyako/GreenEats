@@ -96,20 +96,6 @@ const addProductToFav = () => {
 
 <style scoped>
 
-button {
-  padding: 5px;
-  background-color: var(--button-active);
-  color: beige;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  transition: background-color 400ms ease-out;
-  font-size: large;
-}
-
-button:hover {
-  background-color: var(--button-inactive);
-  cursor: pointer;
-}
 .product-display__name {
   font-size: larger;
   font-weight: bold;

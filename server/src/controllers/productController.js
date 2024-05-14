@@ -1,31 +1,29 @@
-const connection = require('../../config/db');
+const connection = require("../../config/db")
 
 const ProductController = {
     getAllProducts: (req, res) => {
         connection.query("SELECT * FROM product", (error, results) => {
             if (error) {
-                console.error("Erreur lors de la récupération des produits :", error);
-                res.status(500).json({ message: "Erreur lors de la récupération des produits" });
+                console.error("Error ", error);
+                res.status(500).json({ message: "Error " });
             } else {
                 res.json(results);
             }
         });
     },
-    getProductByUsername: (req, res) => {
-        const username = req.params.username;
-
-        const query = "SELECT * FROM product WHERE username = ?";
-        connection.query(query, [username], (error, results) => {
+    addEAN: (req, res) => {
+        const { ean } = req.body;
+        const query = "INSERT INTO product (barcode) VALUES (?)"; 
+        connection.query(query, [ean], (error, results) => {
             if (error) {
-                console.error("Erreur lors de la récupération du produit :", error);
-                res.status(500).json({ message: "Erreur lors de la récupération du produit" });
-            } else if (results.length === 0) {
-                res.status(404).json({ message: "non trouvé" });
+                console.error("Error adding EAN:", error);
+                res.status(500).json({ message: "Erreur ajout EAN" });
             } else {
-                res.json(results[0]); 
+                res.status(201).json({ message: "EAN ajout succes", eanId: results.insertId });
             }
         });
     }
 };
+
 
 module.exports = ProductController;

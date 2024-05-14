@@ -3,6 +3,5 @@ const ProductController = require('../controllers/productController');
 const router = express.Router();
 
 router.get("/", ProductController.getAllProducts);
-router.get("/username/:username", ProductController.getProductByUsername);
-
+router.post("/addEAN", ProductController.addEAN);
 module.exports = router;

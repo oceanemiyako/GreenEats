@@ -2,8 +2,14 @@ const express = require("express");
 const bodyParser = require('body-parser'); 
 const axios = require('axios');
 const port = process.env.PORT || 5000; 
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get("/", (req , res) => {
     res.json({message: "Bienvenue sur notre API"});
@@ -18,17 +24,6 @@ app.use(bodyParser.json());
 const products = require("./src/routes/productRoutes");
 app.use("/products", products);
 
-
-// app.get("/product/:ean", async (req, res) => {
-//     const ean = req.params.ean;
-//     try {
-//         const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${ean}`);
-//         res.json(response.data);
-//     } catch (error) {
-//         console.error("Erreur lors de la récupération des détails du produit :", error);
-//         res.status(500).json({ message: "Erreur lors de la récupération des détails du produit" });
-//     }
-// });
 
 const connection = require('./config/db');
 app.listen(port, (err) => {

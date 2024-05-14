@@ -6,6 +6,7 @@ const sequelize = new Sequelize("greeneats", "root", "root",  {
 });
 
 const User = require("../models/user")(sequelize);
+const UserFavorite = require("../models/user_favorite")(sequelize);
 
 sequelize
     .sync({ force: false })
@@ -15,4 +16,5 @@ sequelize
 module.exports = {
     sequelize,
     User,
+    UserFavorite
 };

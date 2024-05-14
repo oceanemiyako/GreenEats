@@ -1,10 +1,15 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const DB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const isAuthenticated = require("./middleware/authentication");
 
 const app = express();
 const port = 7777;
 
 app.use(express.json());
+
+app.use("/users", userRoutes);
 
 DB.sequelize
     .authenticate()
@@ -17,3 +22,11 @@ DB.sequelize
     .catch((err) => {
         console.log("Erreur lors de la connexion à la BDD.", err.message);
     });
+
+// app.get("/", isAuthenticated, (req, res) => {
+//     res.json({ message: "ça fonctionne" });
+// });
+
+
+
+

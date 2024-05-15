@@ -1,7 +1,15 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import { useUserStore } from "./stores/user.js";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
+import axios from "axios";
+
+onMounted(() => {
+    if(localStorage.getItem('token')) {
+        axios.defaults.headers.common["Authorization"] = localStorage.getItem('token');
+    }
+}
+)
 
 const userStore = useUserStore();
 const isAuthenticated = computed(() => !!userStore.currentUser);
@@ -14,7 +22,7 @@ const isAuthenticated = computed(() => !!userStore.currentUser);
       ><img class="logo" src="@/img/logo.png"
     /></router-link>
     <router-link v-if="isAuthenticated" to="/profile"><img src="@/img/profile.png" /></router-link>
-    <router-link v-else to="/connection"><img src="@/img/profile.png" /></router-link>
+    <router-link v-else to="/profil"><img src="@/img/profile.png" /></router-link>
   </header>
   <main>
     <router-view></router-view>

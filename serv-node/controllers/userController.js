@@ -4,8 +4,11 @@ const { User } = require("../config/db");
 
 exports.register = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // const { username, password } = req.body;
+        const newUser = req.body.newUser;
+        console.log(newUser);
+        const username = newUser.username;
+        const hashedPassword = await bcrypt.hash(newUser.password, 10);
         await User.create({
             username,
             password: hashedPassword,
@@ -19,24 +22,21 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const userCredentials = req.body.userCredentials;
+        const username = userCredentials.username;
         const user = await User.findOne({ where: { username } });
         if (!user) {
             return res.status(401).json({ message: "Utilisateur ou mot de passe incorrect." });
         }
 
-        const isValid = await bcrypt.compare(password, user.password);
+        const isValid = await bcrypt.compare(userCredentials.password, user.password);
 
         if (!isValid) {
             return res.status(401).json({ message: "Mot de passe incorrect." });
         }
 
-        const token = jwt.sign({ userId: user.id }, "TOP_SECRET", { expiresIn: "24h" });
-        res.cookie("acces_token", token, {
-            httpOnly: true,
-        })
-        .status(200)
-        .json({message: "Connexion réussie."})
+        const token = jwt.sign({ userId: user.id }, "TOP_SECRET", { expiresIn: "1h" });
+        res.status(200).json({ token });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

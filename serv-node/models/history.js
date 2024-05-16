@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    const UserFavorite = sequelize.define("User_Favorite", {
+    const History = sequelize.define("History", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -16,5 +16,5 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
     });
-    return UserFavorite;
+    return History;
 };

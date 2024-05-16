@@ -24,6 +24,9 @@ app.use(bodyParser.json());
 const products = require("./src/routes/productRoutes");
 app.use("/products", products);
 
+const favorites = require("./src/routes/favoriteRoute");
+app.use("/favorites", favorites);
+
 
 const connection = require('./config/db');
 app.listen(port, (err) => {

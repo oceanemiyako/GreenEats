@@ -19,14 +19,6 @@ CREATE TABLE IF NOT EXISTS users (
     statut VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS favory (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    product_id INT,
-    product_name VARCHAR(250),
-    CONSTRAINT fk_favory_user_id FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT fk_favory_product_id FOREIGN KEY (product_id) REFERENCES product(id)
-);
 
 CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,6 +28,22 @@ CREATE TABLE IF NOT EXISTS history (
     dateSearch TIMESTAMP,
     CONSTRAINT fk_history_user_id FOREIGN KEY (user_id) REFERENCES users(id),
     CONSTRAINT fk_history_product_id FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+CREATE TABLE IF NOT EXISTS barcodes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    barcode VARCHAR(50),
+    product_name VARCHAR(250)
+);
+
+
+CREATE TABLE IF NOT EXISTS favory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    favory_id INT,
+    barcode VARCHAR(50),
+    CONSTRAINT fk_favory_user_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_favory_favory_id FOREIGN KEY (favory_id) REFERENCES barcodes(id)
 );
 
 

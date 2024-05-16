@@ -20,6 +20,7 @@ const sendEAN = async () => {
   }
 };
 
+
 const fetchProductData = async (param) => {
   const response = await axios.get(
     `https://world.openfoodfacts.org/api/v2/product/${param}.json`
@@ -50,12 +51,22 @@ const clearProductFound = () => {
   barcode.value = 0;
 };
 
-const addProductToFav = () => {
-  const product = productFound[0];
-  addToFavorites({ ...product });
-  productFound.pop();
-  barcode.value = 0;
+const addProductToFav = async () => {
+  try {
+    await axios.post(`${API_BASE_URL}/favorites/addFavorite`, { barcode: barcode.value });
+    console.log("Produit ajouté aux favoris avec succès");
+  } catch (error) {
+    console.error("Erreur ajout favori:", error);
+  }
+  
+  addToFavorites({
+    img: productFound[0].img,
+    marque: productFound[0].marque,
+    name: productFound[0].name,
+    nutriScore: productFound[0].nutriScore
+  });
 };
+
 </script>
 
 <template>

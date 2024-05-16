@@ -30,5 +30,16 @@ export const useUserStore = defineStore("user", () => {
         }
     };
 
-    return { currentUser, registerUser, userLoginIn };
+    const userProfile = async () => {
+        try {
+            const result = await axios.get(`${API_BASE_URL}/users/profile`);
+            if(result.status === 200) {
+                console.log("OKAY");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    return { currentUser, registerUser, userLoginIn, userProfile };
 });

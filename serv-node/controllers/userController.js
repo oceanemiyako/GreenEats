@@ -4,9 +4,7 @@ const { User } = require("../config/db");
 
 exports.register = async (req, res) => {
     try {
-        // const { username, password } = req.body;
         const newUser = req.body.newUser;
-        console.log(newUser);
         const username = newUser.username;
         const hashedPassword = await bcrypt.hash(newUser.password, 10);
         await User.create({
@@ -41,3 +39,19 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.profile = async (req, res) => {
+    try {
+      const userId = req.auth.userId;
+      console.log(userId);
+      const { username } = await User.findByPk(userId);
+  
+      if (!username) {
+        return res.status(404).json("Utilisateur inconnu");
+      }
+  
+      res.status(200).json({ username });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };

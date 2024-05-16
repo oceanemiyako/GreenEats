@@ -3,9 +3,9 @@ import { reactive } from "vue";
 import { useUserStore } from "@/stores/user";
 import axios from "axios";
 
-const store = useUserStore();
+const userStore = useUserStore();
 
-const { registerUser } = store;
+const { registerUser, userProfile } = userStore;
 
 const newUser = reactive({
     username: "",
@@ -18,6 +18,10 @@ const registerHandler = () => {
 
 const testHandler = async () => {
    await axios.get("http://localhost:7777/")
+}
+
+const testHandler2 = () => {
+    userProfile();
 }
 </script>
 
@@ -39,6 +43,7 @@ const testHandler = async () => {
     <div>
         <h3>TEST AUTH</h3>
         <button @click="testHandler">test</button>
+        <button @click="testHandler2">test profile</button>
     </div>
 </template>
 

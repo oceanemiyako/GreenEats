@@ -3,11 +3,22 @@ import axios from "axios";
 import { ref, reactive } from "vue";
 import { useProductStore } from "@/stores/product";
 
+const API_BASE_URL = "http://localhost:5000";
+
 const store = useProductStore();
 const { addToFavorites, addToHistory } = store;
 
 const barcode = ref(0);
 const productFound = reactive([]);
+
+const sendEAN = async () => {
+  try {
+    await axios.post(`${API_BASE_URL}/products/addEAN`, { ean: barcode.value });
+    console.log("EAN ajouté avec succes");
+  } catch (error) {
+    console.error("Erreur ajout EAN:", error);
+  }
+};
 
 const fetchProductData = async (param) => {
   const response = await axios.get(
@@ -33,6 +44,7 @@ const fetchProductData = async (param) => {
   console.log(productFound);
 };
 
+
 const clearProductFound = () => {
   productFound.pop();
   barcode.value = 0;
@@ -48,7 +60,7 @@ const addProductToFav = () => {
 
 <template>
   <div v-if="productFound.length === 0" class="barcode-input">
-    <form @submit.prevent="fetchProductData(barcode)">
+    <form @submit.prevent="fetchProductData(barcode); sendEAN()">
       <div class="label-input">
         <label for="barcode">Barcode :</label>
         <input
@@ -84,20 +96,6 @@ const addProductToFav = () => {
 
 <style scoped>
 
-button {
-  padding: 5px;
-  background-color: var(--button-active);
-  color: beige;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  transition: background-color 400ms ease-out;
-  font-size: large;
-}
-
-button:hover {
-  background-color: var(--button-inactive);
-  cursor: pointer;
-}
 .product-display__name {
   font-size: larger;
   font-weight: bold;

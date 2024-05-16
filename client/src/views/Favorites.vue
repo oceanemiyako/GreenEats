@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 import { useProductStore } from "@/stores/product";
 import { storeToRefs } from "pinia";
-import Details from '@/components/Details.vue'
+import Details from "@/components/Details.vue";
 
 const store = useProductStore();
 const { favorites } = storeToRefs(store);
@@ -12,26 +12,37 @@ const showFavorites = computed(() => {
 });
 
 const showProductDetails = ref("");
+const productInModal = ref();
 
+const modalHandler = (product) => {
+  showProductDetails.value = "show";
+  productInModal.value = product; 
+
+};
 </script>
 
 <template>
   <div class="content-center empty-list" v-if="!showFavorites">
     <p>Aucun produit enregistré dans les favoris.</p>
   </div>
-  <div v-else class="card" @click="showProductDetails = 'show'" v-for="favorite in favorites">
-    <img
-      class="fav-icon"
-      src="@/img/favorite_active.png"
-      alt="fav-icon"
-    />
+  <div
+    v-else
+    class="card"
+    v-for="favorite in favorites"
+    @click="modalHandler(favorite)"
+  >
+    <img class="fav-icon" src="@/img/favorite_active.png" alt="fav-icon" />
     <img class="img-product" :src="favorite.img" alt="product-img" />
     <ul>
       <li class="li-name">{{ favorite.name }}</li>
       <li class="li-brand">{{ favorite.marque }}</li>
     </ul>
   </div>
-  <Details v-if="showProductDetails === 'show'" :product="product" @close-modal="showProductDetails = ''" />
+  <Details
+    v-if="showProductDetails === 'show'"
+    :product="productInModal"
+    @close-modal="showProductDetails = ''"
+  />
 </template>
 
 <style scoped>

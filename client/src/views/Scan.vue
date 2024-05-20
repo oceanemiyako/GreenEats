@@ -3,170 +3,151 @@ import axios from "axios";
 import { ref, reactive } from "vue";
 import { useProductStore } from "@/stores/product";
 
-const API_BASE_URL = "http://localhost:5000";
+const productStore = useProductStore();
+const { fetchProductData, addToFavorites, addToHistory } = productStore;
 
-const store = useProductStore();
-const { addToFavorites, addToHistory } = store;
-
-const barcode = ref(0);
+const barcode = ref("");
 const productFound = reactive([]);
 
-const sendEAN = async () => {
-  try {
-    await axios.post(`${API_BASE_URL}/products/addEAN`, { ean: barcode.value });
-    console.log("EAN ajouté avec succes");
-  } catch (error) {
-    console.error("Erreur ajout EAN:", error);
-  }
+// const sendEAN = async () => {
+//   try {
+//     await axios.post(`${API_BASE_URL}/products/addEAN`, { ean: barcode.value });
+//     console.log("EAN ajouté avec succes");
+//   } catch (error) {
+//     console.error("Erreur ajout EAN:", error);
+//   }
+// };
+
+// const fetchProductData = async (param) => {
+//     const response = await axios.get(`https://world.openfoodfacts.org/api/v2/product/${param}.json`);
+//     const data = response.data.product;
+//     console.log(data);
+
+//     const productInfos = {
+//         img: data.image_url,
+//         marque: data.brands,
+//         vegan: data.ingredients_analysis,
+//         name: data.product_name,
+//         allergens: data.allergens,
+//         ingredients: data.ingredients_text_debug,
+//         palmOil: data.ingredients_from_palm_oil_n,
+//         carbone: data.carbon_footprint_percent_of_known_ingredient_debug,
+//         nutriScore: data.nutriscore_grade,
+//     };
+//     console.log(productInfos);
+//     productFound.push({ ...productInfos });
+//     addToHistory({ ...productInfos });
+//     console.log(productFound);
+// };
+
+const fetchProductDataHandler = async () => {
+    productFound.push(await fetchProductData(barcode.value));
+    addToHistory(barcode.value);
 };
-
-
-const fetchProductData = async (param) => {
-  const response = await axios.get(
-    `https://world.openfoodfacts.org/api/v2/product/${param}.json`
-  );
-  const data = response.data.product;
-  console.log(data);
-
-  const productInfos = {
-    img: data.image_url,
-    marque: data.brands,
-    vegan: data.ingredients_analysis,
-    name: data.product_name,
-    allergens: data.allergens,
-    ingredients: data.ingredients_text_debug,
-    palmOil: data.ingredients_from_palm_oil_n,
-    carbone: data.carbon_footprint_percent_of_known_ingredient_debug,
-    nutriScore: data.nutriscore_grade,
-  };
-  console.log(productInfos);
-  productFound.push({ ...productInfos });
-  addToHistory({ ...productInfos });
-  console.log(productFound);
-};
-
 
 const clearProductFound = () => {
-  productFound.pop();
-  barcode.value = 0;
+    productFound.pop();
+    barcode.value = "";
 };
 
-const addProductToFav = async () => {
-  try {
-    await axios.post(`${API_BASE_URL}/favorites/addFavorite`, { barcode: barcode.value });
-    console.log("Produit ajouté aux favoris avec succès");
-  } catch (error) {
-    console.error("Erreur ajout favori:", error);
-  }
-  
-  addToFavorites({
-    img: productFound[0].img,
-    marque: productFound[0].marque,
-    name: productFound[0].name,
-    nutriScore: productFound[0].nutriScore
-  });
+const addProductToFavoritesHandler = async () => {
+    await addToFavorites(barcode.value);
 };
-
 </script>
 
 <template>
-  <div v-if="productFound.length === 0" class="barcode-input">
-    <form @submit.prevent="fetchProductData(barcode); sendEAN()">
-      <div class="label-input">
-        <label for="barcode">Barcode :</label>
-        <input
-          v-model="barcode"
-          list="codebar-values"
-          type="number"
-          name="barcode"
-          id="barcode"
-        />
-        <datalist id="codebar-values">
-          <option value="7622210449283"></option>
-          <option value="3175680011480"></option>
-        </datalist>
-      </div>
-      <button>Submit</button>
-    </form>
-  </div>
-  <div v-else class="product-display" v-for="p in productFound">
-    <p class="product-display__name">{{ p.name }}</p>
-    <hr>
-    <p class="product-display__marque">{{ p.marque }}</p>
-    
-    <div class="product-display__image">
-      <img :src=" p.img " alt="image">
+    <div v-if="productFound.length === 0" class="barcode-input">
+        <form @submit.prevent="fetchProductDataHandler">
+            <div class="label-input">
+                <label for="barcode">Barcode :</label>
+                <input v-model="barcode" list="codebar-values" type="text" name="barcode" id="barcode" />
+                <datalist id="codebar-values">
+                    <option value="7622210449283"></option>
+                    <option value="3175680011480"></option>
+                    <option value="3274080005003"></option>
+                </datalist>
+            </div>
+            <button>Submit</button>
+        </form>
     </div>
-    Ingrédients :
-    <p>{{ p.ingredients }}</p>
-    <p class="nutriscore">Nutriscore&nbsp;: <span>{{ p.nutriScore }}</span></p>
-    <button @click="clearProductFound">Close</button>
-    <button @click="addProductToFav">Add to fav</button>
-  </div>
+    <div v-else class="product-display" v-for="p in productFound">
+        <p class="product-display__name">{{ p.name }}</p>
+        <hr />
+        <p class="product-display__marque">{{ p.marque }}</p>
+
+        <div class="product-display__image">
+            <img :src="p.img" alt="image" />
+        </div>
+        Ingrédients :
+        <p>{{ p.ingredients }}</p>
+        <p class="nutriscore">
+            Nutriscore&nbsp;: <span>{{ p.nutriScore }}</span>
+        </p>
+        <button @click="clearProductFound">Close</button>
+        <button @click="addProductToFavoritesHandler">Add to fav</button>
+    </div>
 </template>
 
 <style scoped>
-
 .product-display__name {
-  font-size: larger;
-  font-weight: bold;
+    font-size: larger;
+    font-weight: bold;
 }
 .product-display__marque {
-  font-style: oblique;
+    font-style: oblique;
 }
 .product-display__image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .product-display__image img {
-  width: 100px;
+    width: 100px;
 }
-
 
 .product-display {
-  color: var(--dark-green);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
+    color: var(--dark-green);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
 }
 .nutriscore {
-  border: 1px solid var(--dark-green);
-  border-radius: 2rem;
-  padding: .25rem .5rem;
-  align-self: flex-start;
+    border: 1px solid var(--dark-green);
+    border-radius: 2rem;
+    padding: 0.25rem 0.5rem;
+    align-self: flex-start;
 }
 
 .nutriscore span {
-  text-transform: capitalize;
+    text-transform: capitalize;
 }
 div.barcode-input {
-  height: 100%;
-
-  > form {
     height: 100%;
-    width: 100%;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-  }
+
+    > form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
 }
 div.barcode-input input {
-  border: 1px solid var(--dark-green);
-  padding: .5rem 1rem;
-  border-radius: 4px;
-  font-size: 1rem;
+    border: 1px solid var(--dark-green);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
 }
 
 div.label-input {
-  display: flex;
-  flex-flow: column nowrap;
+    display: flex;
+    flex-flow: column nowrap;
 
-  > label {
-    margin-bottom: 5px;
-  }
+    > label {
+        margin-bottom: 5px;
+    }
 }
 </style>

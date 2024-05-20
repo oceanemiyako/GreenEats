@@ -1,21 +1,25 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import { useUserStore } from "./stores/user.js";
+import { useProductStore } from "./stores/product.ts";
 import { computed, onMounted } from "vue";
 import axios from "axios";
 
-onMounted(() => {
+const userStore = useUserStore();
+const productStore = useProductStore();
+const { userProfile } = userStore;
+const { fetchAllFavorites } = productStore;
+
+onMounted( async () => {
     if (localStorage.getItem("token")) {
         axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+        await userProfile();
+        await fetchAllFavorites()
     }
 });
-
-const userStore = useUserStore();
-const isAuthenticated = computed(() => !!userStore.currentUser);
 </script>
 
 <template>
-
     <header>
         <router-link class="router-logo" to="/"><img class="logo" src="@/img/logo.png" /></router-link>
         <router-link to="/profil"><img src="@/img/profile.png" /></router-link>
@@ -51,7 +55,6 @@ const isAuthenticated = computed(() => !!userStore.currentUser);
             >
         </nav>
     </footer>
-
 </template>
 
 <style scoped>
@@ -67,12 +70,12 @@ header {
 }
 
 .router {
-  text-decoration: none;
-  color: var(--green);
+    text-decoration: none;
+    color: var(--green);
 }
 
 .router.router-link-active {
-  color: var(--dark-green);
+    color: var(--dark-green);
 }
 
 .router-logo {
@@ -88,11 +91,9 @@ header {
 }
 
 main {
-
     height: 100%;
     width: 100%;
     overflow: auto;
-
 }
 
 footer {

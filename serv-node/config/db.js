@@ -1,12 +1,13 @@
 const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize("greeneats", "root", "root",  {
-    host: "localhost",
     dialect: "mysql",
+    host: "localhost",
 });
 
 const User = require("../models/user")(sequelize);
-const UserFavorite = require("../models/user_favorite")(sequelize);
+const Favorite = require("../models/favorite")(sequelize);
+const History = require("../models/history")(sequelize);
 
 sequelize
     .sync({ force: false })
@@ -16,5 +17,6 @@ sequelize
 module.exports = {
     sequelize,
     User,
-    UserFavorite
+    Favorite,
+    History,
 };

@@ -1,21 +1,21 @@
 :root {
-  --button-inactive: rgb(227 36 21 / 76%) ;
-  --button-active: #E32B15;
-  --bg-footer-header: rgb(15 236 143 / 10%);
-  --green :#0B9D60;
-  --dark-green: #006633;
+    --button-inactive: rgb(227 36 21 / 76%);
+    --button-active: #e32b15;
+    --bg-footer-header: rgb(15 236 143 / 10%);
+    --green: #0b9d60;
+    --dark-green: #006633;
 }
 
-* {  
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  width: 100dvw;
-  height: 100dvh;
+    width: 100dvw;
+    height: 100dvh;
 }
 
 div#app {
@@ -23,7 +23,7 @@ div#app {
     width: 100%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between;   
+    justify-content: space-between;
 }
 
 .content-center {
@@ -45,15 +45,67 @@ div#app {
 
 button {
     padding: 5px;
+    margin: 5px;
     background-color: var(--button-active);
     color: beige;
     border-radius: 5px;
     border: 1px solid transparent;
     transition: background-color 400ms ease-out;
     font-size: large;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: var(--button-inactive);
     cursor: pointer;
-  }
+}
+
+/* FORMULAIRES  */
+
+.form-container {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 35vh;
+    color: #006633;
+    font-family: "Acumin Variable Concept", sans-serif;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.input-field {
+    background-color:rgba(15, 236, 144, 0.312);
+    
+    /* opacity: 25%; */
+    border: none;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-wrapper label {
+    width: 120px;
+    margin-right: 5px;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    flex: 1;
+}
+
+.submit-button {
+    background-color: #e32b15;
+    color: beige;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    padding: 5px;
+    transition: background-color 400ms ease-out;
+    font-size: large;
+    margin-top: 20px;
+    width: 100px;
+}

@@ -1,56 +1,50 @@
 <script setup>
 import { ref, computed } from "vue";
+import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user.js";
-import router from '../router/router.ts';
+import router from "../router/router.ts";
 
 const userStore = useUserStore();
-
-const currentUser = computed(() => userStore.currentUser);
+const { currentUser } = storeToRefs(userStore);
 
 function logout() {
-    userStore.currentUser = null; 
-    router.push({ name: "connection" });
+    localStorage.removeItem("token");
+    currentUser.value = null;
+    location.reload();
+    router.push({ name: "Home" });
 }
 
 function goToHome() {
-    router.push({ name: "Home" }); 
+    router.push({ name: "Home" });
 }
-
 </script>
 
 <template>
-
     <div class="container">
-
         <div v-if="currentUser" class="profile-box">
-
-        <h3>Profile</h3>
-        <hr>
-        <div class="profile-details">
+            <h3>Profil</h3>
+            <hr />
+            <div class="profile-details">
                 <div class="detail">
-                    <p>Pseudo: {{ currentUser.username }}</p>
+                    <p><span>Pseudo:</span> {{ currentUser.username }}</p>
                 </div>
                 <div class="detail">
-                    <p>E-mail: {{ currentUser.email }}</p>
+                    <p><span>E-mail:</span> {{ currentUser.email }}</p>
                 </div>
                 <div class="detail">
-                    <p>Status: {{ currentUser.status }}</p>
+                    <p><span>Statut:</span> {{ currentUser.status }}</p>
                 </div>
             </div>
-            
-        <button @click="logout" class="profile-button">Logout</button>
-        <button @click="goToHome" class="profile-button">Go to Home</button>
 
+            <button @click="logout" class="profile-button">Déconnexion</button>
+            <button @click="goToHome" class="profile-button">Accueil</button>
         </div>
 
         <div v-else>
             <p>No user logged in.</p>
         </div>
-
     </div>
-
 </template>
-
 
 <style scoped>
 .container {
@@ -58,7 +52,7 @@ function goToHome() {
     justify-content: center;
     align-items: center;
     height: 100%;
-    color: #006633; 
+    color: #006633;
 }
 
 .profile-box {
@@ -79,15 +73,18 @@ function goToHome() {
 .detail {
     display: flex;
     justify-content: space-between;
-    width: 200px; 
+    width: 200px;
     margin-bottom: 10px;
 }
 
 .profile-details p {
     word-wrap: break-word;
+
+    > span {font-weight: bold;}
+    
 }
 
-.profile-button {
+/* .profile-button {
     background-color: #E32B15; 
     color: beige; 
     border: 1px solid transparent; 
@@ -101,13 +98,12 @@ function goToHome() {
 
 .profile-button:hover {
     background-color: #E32B15;
-}
+} */
 
 hr {
-    color: #0B9D60; 
-    border-color: #0B9D60; 
-    margin-top: 0px; 
-    margin-bottom: 20px; 
+    color: #0b9d60;
+    border-color: #0b9d60;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
-
 </style>

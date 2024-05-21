@@ -1,18 +1,20 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
-const cors = require('cors');
+const cors = require("cors");
 const DB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
-const isAuthenticated = require('./middleware/authentication');
+const favoriteRoutes = require("./routes/favoriteRoutes");
+const historyRoutes = require("./routes/historyRoutes");
+const isAuthenticated = require("./middleware/authentication");
 
 const app = express();
 const port = 7777;
 
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser());
 
 app.use("/users", userRoutes);
+app.use("/favorites", favoriteRoutes);
+app.use("/history", historyRoutes);
 
 DB.sequelize
     .authenticate()
@@ -28,9 +30,4 @@ DB.sequelize
 
 app.get("/", isAuthenticated, (req, res) => {
     res.json({ message: "ça fonctionne" });
-    
 });
-
-
-
-

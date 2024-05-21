@@ -5,11 +5,12 @@ const { User } = require("../config/db");
 exports.register = async (req, res) => {
     try {
         const newUser = req.body.newUser;
-        const username = newUser.username;
         const hashedPassword = await bcrypt.hash(newUser.password, 10);
         await User.create({
-            username,
+            username: newUser.username,
+            email: newUser.email,
             password: hashedPassword,
+            status: newUser.status,
         });
         res.status(201).json({ message: "Utilisateur créé avec succès" });
     } catch (error) {
@@ -42,16 +43,18 @@ exports.login = async (req, res) => {
 
 exports.profile = async (req, res) => {
     try {
-      const userId = req.auth.userId;
-      console.log(userId);
-      const { username } = await User.findByPk(userId);
-  
-      if (!username) {
-        return res.status(404).json("Utilisateur inconnu");
-      }
-  
-      res.status(200).json({ username });
+        const userId = req.auth.userId;
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json("Utilisateur inconnu");
+        }
+        const currentUser = {
+            username: user.username,
+            email: user.email,
+            status: user.status,
+        };
+        res.status(200).json({ currentUser });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  };
+};

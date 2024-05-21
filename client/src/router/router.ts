@@ -6,7 +6,6 @@ import Favorites from "@/views/Favorites.vue";
 import Search from "@/views/Search.vue";
 import History from "@/views/History.vue";
 import SignUp from "@/views/SignUp.vue";
-import Profile from "@/views/Profile.vue";
 import Error from "@/views/Error.vue";
 import ProfileView from "@/views/ProfileView.vue";
 
@@ -52,11 +51,6 @@ const router = createRouter({
       path: "/sign-up",
       name: "sign-up",
       component: SignUp,
-    },
-    {
-      path: "/profile",
-      name: "profile",
-      component: Profile,
     },
     {
         path:"/profil",

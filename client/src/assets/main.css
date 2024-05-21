@@ -73,11 +73,14 @@ button:hover {
 }
 
 .input-field {
-    background-color: #0fec8f;
-    opacity: 25%;
+    background-color:rgba(15, 236, 144, 0.312);
+    
+    /* opacity: 25%; */
     border: none;
     padding: 5px;
     margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .input-wrapper {
     display: flex;

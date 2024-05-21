@@ -5,5 +5,6 @@ const isAuthenticated = require("../middleware/authentication");
 
 router.post("/add", isAuthenticated, favoriteController.add);
 router.get("/getAll", isAuthenticated, favoriteController.getAll )
+router.delete("/delete", isAuthenticated, favoriteController.delete )
 
 module.exports = router;

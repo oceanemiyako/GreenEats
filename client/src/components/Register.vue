@@ -1,16 +1,10 @@
 <script setup>
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import { useProductStore } from "@/stores/product";
-import axios from "axios";
 
 const emits = defineEmits(["rollback", "toLogin"]);
 const userStore = useUserStore();
-const productStore = useProductStore();
-const router = useRouter();
 
-const { addToFav, addToHis } = productStore;
 const { registerUser } = userStore;
 
 const newUser = reactive({
@@ -23,22 +17,6 @@ const newUser = reactive({
 const registerHandler = () => {
     registerUser(newUser);
     emits("toLogin");
-};
-
-const testHandler = async () => {
-    await axios.get("http://localhost:7777/");
-};
-
-const testHandler2 = () => {
-    userProfile();
-};
-const barcode = "barcode";
-const testfavorite = () => {
-    addToFav(barcode);
-};
-
-const testhistory = () => {
-    addToHis(barcode);
 };
 </script>
 
@@ -68,7 +46,6 @@ const testhistory = () => {
                     required
                     class="input-field"
                 />
-                <span>Email is invalid!</span>
             </div>
             <div class="input-wrapper">
                 <label for="password">Mot de passe :</label>
@@ -83,12 +60,7 @@ const testhistory = () => {
             </div>
             <div class="input-wrapper">
                 <label for="status">Régime/Statut: </label>
-                <select
-                    v-model="newUser.status"
-                    @change="statusTouched = true"
-                    id="status"
-                    class="input-field"
-                >
+                <select v-model="newUser.status" @change="statusTouched = true" id="status" class="input-field">
                     <option value="vegan">Vegan</option>
                     <option value="allergie">Allergies</option>
                     <option value="sansGluten">Sans gluten</option>
@@ -99,14 +71,6 @@ const testhistory = () => {
             <button class="submit-button">Valider</button>
         </form>
         <button @click="$emit('rollback')">Retour</button>
-    </div>
-
-    <div>
-        <h3>TEST AUTH</h3>
-        <button @click="testHandler">test</button>
-        <button @click="testHandler2">test profile</button>
-        <button @click="testfavorite">test favorite</button>
-        <button @click="testhistory">test history</button>
     </div>
 </template>
 

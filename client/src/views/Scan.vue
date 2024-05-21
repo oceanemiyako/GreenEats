@@ -1,44 +1,16 @@
 <script setup>
-import axios from "axios";
 import { ref, reactive } from "vue";
 import { useProductStore } from "@/stores/product";
+import { useUserStore} from "../stores/user";
+import { storeToRefs } from "pinia";
 
 const productStore = useProductStore();
+const userStore = useUserStore();
 const { fetchProductData, addToFavorites, addToHistory } = productStore;
+const { currentUser } = storeToRefs(userStore);
 
 const barcode = ref("");
 const productFound = reactive([]);
-
-// const sendEAN = async () => {
-//   try {
-//     await axios.post(`${API_BASE_URL}/products/addEAN`, { ean: barcode.value });
-//     console.log("EAN ajouté avec succes");
-//   } catch (error) {
-//     console.error("Erreur ajout EAN:", error);
-//   }
-// };
-
-// const fetchProductData = async (param) => {
-//     const response = await axios.get(`https://world.openfoodfacts.org/api/v2/product/${param}.json`);
-//     const data = response.data.product;
-//     console.log(data);
-
-//     const productInfos = {
-//         img: data.image_url,
-//         marque: data.brands,
-//         vegan: data.ingredients_analysis,
-//         name: data.product_name,
-//         allergens: data.allergens,
-//         ingredients: data.ingredients_text_debug,
-//         palmOil: data.ingredients_from_palm_oil_n,
-//         carbone: data.carbon_footprint_percent_of_known_ingredient_debug,
-//         nutriScore: data.nutriscore_grade,
-//     };
-//     console.log(productInfos);
-//     productFound.push({ ...productInfos });
-//     addToHistory({ ...productInfos });
-//     console.log(productFound);
-// };
 
 const fetchProductDataHandler = async () => {
     productFound.push(await fetchProductData(barcode.value));
@@ -59,15 +31,15 @@ const addProductToFavoritesHandler = async () => {
     <div v-if="productFound.length === 0" class="barcode-input">
         <form @submit.prevent="fetchProductDataHandler">
             <div class="label-input">
-                <label for="barcode">Barcode :</label>
-                <input v-model="barcode" list="codebar-values" type="text" name="barcode" id="barcode" />
+                <label for="barcode">Code-barres :</label>
+                <input class="input-field" v-model="barcode" list="codebar-values" type="text" name="barcode" id="barcode" required/>
                 <datalist id="codebar-values">
                     <option value="7622210449283"></option>
                     <option value="3175680011480"></option>
                     <option value="3274080005003"></option>
                 </datalist>
             </div>
-            <button>Submit</button>
+            <button>Valider</button>
         </form>
     </div>
     <div v-else class="product-display" v-for="p in productFound">
@@ -83,8 +55,8 @@ const addProductToFavoritesHandler = async () => {
         <p class="nutriscore">
             Nutriscore&nbsp;: <span>{{ p.nutriScore }}</span>
         </p>
-        <button @click="clearProductFound">Close</button>
-        <button @click="addProductToFavoritesHandler">Add to fav</button>
+        <button @click="clearProductFound">Fermer</button>
+        <button v-if="currentUser" @click="addProductToFavoritesHandler">Ajouter aux favoris</button>
     </div>
 </template>
 
@@ -136,7 +108,7 @@ div.barcode-input {
     }
 }
 div.barcode-input input {
-    border: 1px solid var(--dark-green);
+    border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     font-size: 1rem;
@@ -148,6 +120,8 @@ div.label-input {
 
     > label {
         margin-bottom: 5px;
+        color: #006633;
+        font-weight: bold;
     }
 }
 </style>

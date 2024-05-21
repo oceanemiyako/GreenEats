@@ -1,10 +1,13 @@
 <script setup>
 import { reactive } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useProductStore } from "@/stores/product";
 import { useRouter } from "vue-router";
 
-const store = useUserStore();
-const { userLoginIn, userProfile } = store;
+const userStore = useUserStore();
+const productStore = useProductStore();
+const { userLoginIn, userProfile } = userStore;
+const { fetchAllFavorites, fetchAllHistories} = productStore;
 const router = useRouter();
 const emits = defineEmits(["rollback"]);
 
@@ -16,6 +19,8 @@ const userCredentials = reactive({
 const loginHandler = async () => {
     await userLoginIn(userCredentials);
     await userProfile();
+    await fetchAllFavorites();
+    await fetchAllHistories();
     router.push({ name: "Home" });
 };
 </script>

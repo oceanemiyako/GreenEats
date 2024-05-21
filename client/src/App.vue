@@ -8,13 +8,14 @@ import axios from "axios";
 const userStore = useUserStore();
 const productStore = useProductStore();
 const { userProfile } = userStore;
-const { fetchAllFavorites } = productStore;
+const { fetchAllFavorites, fetchAllHistories } = productStore;
 
-onMounted( async () => {
+onMounted(async () => {
     if (localStorage.getItem("token")) {
         axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
         await userProfile();
-        await fetchAllFavorites()
+        await fetchAllFavorites();
+        await fetchAllHistories();
     }
 });
 </script>
@@ -38,19 +39,19 @@ onMounted( async () => {
             <router-link class="router" to="/history"
                 ><div class="img-p">
                     <img src="@/img/history.png" />
-                    <p>History</p>
+                    <p>Historique</p>
                 </div></router-link
             >
             <router-link class="router" to="/favorites"
                 ><div class="img-p">
                     <img src="@/img/favorite.png" />
-                    <p>Favorites</p>
+                    <p>Favoris</p>
                 </div></router-link
             >
             <router-link class="router" to="/search"
                 ><div class="img-p">
                     <img src="@/img/search.png" />
-                    <p>Search</p>
+                    <p>Recherche</p>
                 </div></router-link
             >
         </nav>

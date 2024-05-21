@@ -5,11 +5,12 @@ import { useUserStore } from "../stores/user.js";
 import router from "../router/router.ts";
 
 const userStore = useUserStore();
-const { currentUser } = userStore;
+const { currentUser } = storeToRefs(userStore);
 
 function logout() {
     localStorage.removeItem("token");
-    userStore.currentUser = null;
+    currentUser.value = null;
+    location.reload();
     router.push({ name: "Home" });
 }
 
@@ -21,22 +22,22 @@ function goToHome() {
 <template>
     <div class="container">
         <div v-if="currentUser" class="profile-box">
-            <h3>Profile</h3>
+            <h3>Profil</h3>
             <hr />
             <div class="profile-details">
                 <div class="detail">
-                    <p>Pseudo: {{ currentUser.username }}</p>
+                    <p><span>Pseudo:</span> {{ currentUser.username }}</p>
                 </div>
                 <div class="detail">
-                    <p>E-mail: {{ currentUser.email }}</p>
+                    <p><span>E-mail:</span> {{ currentUser.email }}</p>
                 </div>
                 <div class="detail">
-                    <p>Status: {{ currentUser.status }}</p>
+                    <p><span>Statut:</span> {{ currentUser.status }}</p>
                 </div>
             </div>
 
-            <button @click="logout" class="profile-button">Logout</button>
-            <button @click="goToHome" class="profile-button">Go to Home</button>
+            <button @click="logout" class="profile-button">Déconnexion</button>
+            <button @click="goToHome" class="profile-button">Accueil</button>
         </div>
 
         <div v-else>
@@ -78,6 +79,9 @@ function goToHome() {
 
 .profile-details p {
     word-wrap: break-word;
+
+    > span {font-weight: bold;}
+    
 }
 
 /* .profile-button {

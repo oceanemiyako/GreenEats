@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import axios from "axios";
+
 
 export const useProductStore = defineStore("product", () => {
     const API_BASE_URL = "http://localhost:7777";
@@ -12,6 +13,7 @@ export const useProductStore = defineStore("product", () => {
         const data = response.data.product;
 
         const productInfos = {
+            barcode: data.code,
             img: data.image_url,
             marque: data.brands,
             vegan: data.ingredients_analysis,
@@ -23,24 +25,11 @@ export const useProductStore = defineStore("product", () => {
             nutriScore: data.nutriscore_grade,
         };
         return productInfos;
-        // productFound.push({ ...productInfos });
-        // addToHistory({ ...productInfos });
-        // console.log(productFound);
-    };
-
-    const addToFavorites = async (barcode) => {
-        try {
-            const result = await axios.post(`${API_BASE_URL}/favorites/add`, { barcode });
-            if (result.status === 201) {
-                console.log("produit ajouté aux fav");
-            }
-        } catch (error) {
-            console.log(error);
-        }
     };
 
     const fetchAllFavorites = async () => {
         try {
+            favorites.value = [];
             const result = await axios.get(`${API_BASE_URL}/favorites/getAll`);
             console.log(result.data);
             const barcodes = result.data;
@@ -53,15 +42,80 @@ export const useProductStore = defineStore("product", () => {
         }
     };
 
-    const addToHistory = async (barcode) => {
+    const addToFavorites = async (barcode) => {
         try {
-            const result = await axios.post(`${API_BASE_URL}/history/add`, { barcode });
+            const result = await axios.post(`${API_BASE_URL}/favorites/add`, { barcode });
             if (result.status === 201) {
-                console.log("Produit ajouté à l'historique.");
+                console.log("produit ajouté aux fav");
+                fetchAllFavorites();
             }
         } catch (error) {
             console.log(error);
         }
     };
-    return { favorites, history, fetchProductData, addToFavorites, fetchAllFavorites, addToHistory };
+
+    const removeFromFavorites = async (param) => {
+        try {
+            console.log(param);
+
+            const result = await axios.delete(`${API_BASE_URL}/favorites/delete`, { data: { param } });
+            if (result.status === 200) {
+                console.log("Produit supprimé des favoris.");
+                fetchAllFavorites();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchAllHistories = async () => {
+        try {
+            history.value = [];
+            const result = await axios.get(`${API_BASE_URL}/history/getAll`);
+            console.log(result.data);
+            const barcodes = result.data;
+            for (let i = 0; i < barcodes.length; i++) {
+                const infos = await fetchProductData(barcodes[i]);
+                history.value.push(infos);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const addToHistory = async (barcode) => {
+        try {
+            const result = await axios.post(`${API_BASE_URL}/history/add`, { barcode });
+            if (result.status === 201) {
+                console.log("Produit ajouté à l'historique.");
+                fetchAllHistories();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteHistory = async () => {
+        try {
+            const result = await axios.delete(`${API_BASE_URL}/history/deleteAll`);
+            if (result.status === 200) {
+                console.log("Historique supprimé.");
+            }
+        } catch (error) {
+            console.log(error);
+            
+        }
+    };
+
+    return {
+        favorites,
+        history,
+        fetchProductData,
+        addToFavorites,
+        removeFromFavorites,
+        fetchAllFavorites,
+        addToHistory,
+        fetchAllHistories,
+        deleteHistory,
+    };
 });

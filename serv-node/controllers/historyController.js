@@ -15,3 +15,22 @@ exports.add = async (req, res) => {
         res.json({ message: "Erreur lors de l'ajout du produit à l'historique." });
     }
 };
+
+exports.getAll = async (req, res) => {
+    try {
+        const histories = await History.findAll({ where: { user_id: req.auth.userId } });
+        const data = histories.map((history) => history.barcode);
+        res.json(data);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+};
+
+exports.deleteAll = async (req, res) => {
+    try {
+        await History.destroy({where: { user_id: req.auth.userId}});
+        res.status(200).json({message: "Historique supprimé."})
+    } catch (error) {
+        res.json({ message: error.message})
+    }
+}

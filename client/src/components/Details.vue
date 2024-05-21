@@ -3,6 +3,14 @@ import { useProductStore } from "@/stores/product";
 
 const props = defineProps(["product"]);
 const emits = defineEmits(["close-modal"]);
+const productStore = useProductStore();
+const { removeFromFavorites } = productStore;
+
+const deleteFavHandler = async () => {
+    const barcode = props.product.barcode;
+    await removeFromFavorites(barcode);
+    emits("close-modal");
+};
 </script>
 
 <template>
@@ -19,8 +27,8 @@ const emits = defineEmits(["close-modal"]);
             <div class="nutriscore">
                 <span> Nutriscore&nbsp;:</span> <span>{{ product.nutriScore }}</span>
             </div>
-            <button @click="$emit('close-modal')">Close</button>
-            <button>Remove from fav</button>
+            <button @click="$emit('close-modal')">Fermer</button>
+            <button @click="deleteFavHandler">Supprimer</button>
         </div>
     </div>
 </template>
@@ -77,7 +85,7 @@ hr {
     width: 100%;
 }
 
-button { 
+button {
     align-self: center;
     margin-top: 0.5rem;
 }

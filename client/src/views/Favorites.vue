@@ -6,9 +6,6 @@ import Details from "@/components/Details.vue";
 
 const productStore = useProductStore();
 const { favorites } = storeToRefs(productStore);
-const { fetchProductData } = productStore;
-
-const favoritesInfos = ref([]);
 
 const showFavorites = computed(() => {
     return favorites.value.length;

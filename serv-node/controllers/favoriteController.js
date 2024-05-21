@@ -3,9 +3,7 @@ const { Favorite } = require("../config/db");
 exports.add = async (req, res) => {
     try {
         const userId = req.auth.userId;
-        console.log(userId);
         const barcode = req.body.barcode;
-        console.log(barcode);
         const [favorite, created] = await Favorite.findOrCreate({ where: { user_id: userId, barcode: barcode } });
         if (created) {
             res.status(201).json({ message: "Produit ajouté aux favoris." });
@@ -18,10 +16,17 @@ exports.add = async (req, res) => {
     }
 };
 
-// exports.delete = async (req, res) => {
-//     try {
-//     } catch (error) {}
-// };
+exports.delete = async (req, res) => {
+    try {
+        const userId = req.auth.userId;
+        const barcode = req.body.param;
+        console.log(barcode);
+        await Favorite.destroy({ where: { user_id: userId, barcode: barcode } });
+        res.status(200).json({ message: "Element supprimé des favoris." });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+};
 
 exports.getAll = async (req, res) => {
     try {

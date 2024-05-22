@@ -17,7 +17,7 @@ const showForm = ref("");
     <!-- L'affichage de cette view est basé sur du rendu conditionnel. Si un utilisateur est connecté on affiche ses infos.Sinon on donne le choix de s'inscrire ou de se connecter à l'app. -->
     <Profile v-if="currentUser" />
     <div v-else>
-        <div v-if="showForm === ''">
+        <div v-if="showForm === ''" class="wrapper">
             <p>Pas encore de compte ?</p>
             <button @click="showForm = 'register'">Inscrivez-vous</button>
             <p>Déjà inscrit ?</p>
@@ -28,4 +28,18 @@ const showForm = ref("");
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.wrapper {
+    margin-top: 5rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    color: #006633;
+    > p {
+        margin-top: 2rem;
+    }
+}
+
+</style>

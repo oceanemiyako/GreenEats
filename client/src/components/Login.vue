@@ -50,13 +50,13 @@ const loginHandler = async () => {
                 <input
                     id="password"
                     name="password"
-                    type="text"
+                    type="password"
                     v-model="userCredentials.password"
                     required
                     class="input-field"
                 />
             </div>
-            <button class="submit-button">Se Connecter</button>
+            <button class="submit-button">Connexion</button>
         </form>
         <button @click="$emit('rollback')">Retour</button>
     </div>

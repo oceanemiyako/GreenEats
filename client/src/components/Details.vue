@@ -1,11 +1,13 @@
 <script setup>
 import { useProductStore } from "@/stores/product";
 
+// Props et eimts qui permettent de passer des datas depuis le parent vers cette modal et un event vers le parent pour fermer la modal.
 const props = defineProps(["product"]);
 const emits = defineEmits(["close-modal"]);
 const productStore = useProductStore();
 const { removeFromFavorites } = productStore;
 
+// Fonction qui supprime cet élément des favoris de l'utilisateur et qui ensuite ferme la modal.
 const deleteFavHandler = async () => {
     const barcode = props.product.barcode;
     await removeFromFavorites(barcode);

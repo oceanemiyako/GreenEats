@@ -7,10 +7,12 @@ const productStore = useProductStore();
 const { history } = storeToRefs(productStore);
 const { deleteHistory } = productStore;
 
+// Fonction qui gère l'affichage de la page en fonction du tableau 'history'
 const showHistory = computed(() => {
     return history.value.length;
 });
 
+// Fonction qui permet de supprimer l'historique complet de l'utilisateur dans la BDD ainsi que dans le store 'product'.
 const clearHistoryHandler = () => {
     deleteHistory();
     history.value = [];

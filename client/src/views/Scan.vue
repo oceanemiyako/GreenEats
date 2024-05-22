@@ -12,22 +12,29 @@ const { currentUser } = storeToRefs(userStore);
 const barcode = ref("");
 const productFound = reactive([]);
 
+// Fonction appelée à la validation du formulaire.
 const fetchProductDataHandler = async () => {
+    // On lance une requête pour récupérer les infos du produit et on stocke ces infos dans un tableau.
     productFound.push(await fetchProductData(barcode.value));
+    // On ajoute également le code-barres à l'historique de l'utilisateur.
     addToHistory(barcode.value);
 };
 
+// Fonction qui vide le tableau productFound et qui reset la value de l'input code-barres.
 const clearProductFound = () => {
     productFound.pop();
     barcode.value = "";
 };
 
+// Fonction qui ajoute le produit aux favoris de l'utilisateur.
 const addProductToFavoritesHandler = async () => {
     await addToFavorites(barcode.value);
 };
 </script>
 
 <template>
+    <!-- L'app est destinée à être utilisée avec la caméra du téléphone. Pour l'instant la recherche se fait vi aune input text. -->
+    <!-- Si le tableau productFound est vide on affiche l'input pour la recherche, sinon on affiche les infos du produit. -->
     <div v-if="productFound.length === 0" class="barcode-input">
         <form @submit.prevent="fetchProductDataHandler">
             <div class="label-input">

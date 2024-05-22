@@ -1,5 +1,4 @@
 <script setup>
-import { ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user.js";
 import router from "../router/router.ts";
@@ -7,6 +6,10 @@ import router from "../router/router.ts";
 const userStore = useUserStore();
 const { currentUser } = storeToRefs(userStore);
 
+// Fonction qui gère la déconnexion de l'utilisateur.
+// On vide le local storage du token et on vide le tebaleau currentUser dans le store 'user'
+// Puis on reload la page pour vider les tableaux history et favorites.
+// Enfin on renvoie vers la page d'accueil.
 function logout() {
     localStorage.removeItem("token");
     currentUser.value = null;

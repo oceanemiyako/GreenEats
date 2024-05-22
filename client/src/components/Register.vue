@@ -2,11 +2,13 @@
 import { reactive } from "vue";
 import { useUserStore } from "@/stores/user";
 
+// Emits pour pouvoir revenir à la page précédente ou renvoyer vers la page de login.
 const emits = defineEmits(["rollback", "toLogin"]);
 const userStore = useUserStore();
 
 const { registerUser } = userStore;
 
+// Tableau des informations rentrées dans le formulaire d'inscription par l'utilisateur.
 const newUser = reactive({
     username: "",
     email: "",
@@ -14,6 +16,7 @@ const newUser = reactive({
     status: "",
 });
 
+// Création du profil de l'utilisateur dans la database puis renvoie vers la page de connexion.
 const registerHandler = () => {
     registerUser(newUser);
     emits("toLogin");

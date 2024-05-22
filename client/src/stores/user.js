@@ -3,9 +3,14 @@ import { ref } from "vue";
 import axios from "axios";
 
 export const useUserStore = defineStore("user", () => {
+
+    // Les constantes :
     const API_BASE_URL = "http://localhost:7777";
     const currentUser = ref(null);
 
+    // Les Méthodes :
+
+    // Fonction pour créer un utilisateur en l'enregistrer en BDD.
     const registerUser = async (newUser) => {
         try {
             const result = await axios.post(`${API_BASE_URL}/users/register`, { newUser });
@@ -17,12 +22,15 @@ export const useUserStore = defineStore("user", () => {
         }
     };
 
+    // Fonction pour créer une connexion utilisateur.
     const userLoginIn = async (userCredentials) => {
         try {
             const result = await axios.post(`${API_BASE_URL}/users/login`, { userCredentials });
+            // Si la connexion est un succès on eneregistre le token dans le local storage
+            // On pourra ainsi utliser le token pour accéder aux routes protégées.
             if (result.status === 200) {
                 localStorage.setItem("token", result.data.token);
-
+            // On passe le token dans le header des requêtes axios.
                 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
             }
         } catch (error) {
@@ -30,6 +38,7 @@ export const useUserStore = defineStore("user", () => {
         }
     };
 
+    // Fonction pour récupérer les infos de l'utilisateur et les stocker dans un tableau
     const userProfile = async () => {
         try {
             const result = await axios.get(`${API_BASE_URL}/users/profile`);

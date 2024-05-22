@@ -7,6 +7,7 @@ import Details from "@/components/Details.vue";
 const productStore = useProductStore();
 const { favorites } = storeToRefs(productStore);
 
+// Fonction qui gère l'affichage de la page.
 const showFavorites = computed(() => {
     return favorites.value.length;
 });
@@ -14,6 +15,7 @@ const showFavorites = computed(() => {
 const showProductDetails = ref("");
 const productInModal = ref();
 
+// Fonction pour afficher une modal qui contient les détails du produit sléectionné.
 const modalHandler = (product) => {
     showProductDetails.value = "show";
     productInModal.value = product;
@@ -24,6 +26,7 @@ const modalHandler = (product) => {
     <div class="content-center empty-list" v-if="!showFavorites">
         <p>Aucun produit enregistré dans les favoris.</p>
     </div>
+    <!-- l'affichage des favoris est généré par un v-for, dans notre cas, pour chaque élément présent dans le tableau favoris, on généré une card -->
     <div v-else class="card" v-for="favorite in favorites" @click="modalHandler(favorite)">
         <img class="fav-icon" src="@/img/favorite_active.png" alt="fav-icon" />
         <img class="img-product" :src="favorite.img" alt="product-img" />
@@ -32,6 +35,7 @@ const modalHandler = (product) => {
             <li class="li-brand">{{ favorite.marque }}</li>
         </ul>
     </div>
+    <!-- On passe les data dans la modal grâce à une props (ici 'product') et la sortie de la modal se fait par un emit ( 'close-modal') -->
     <Details v-if="showProductDetails === 'show'" :product="productInModal" @close-modal="showProductDetails = ''" />
 </template>
 

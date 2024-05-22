@@ -2,12 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
 
-
 export const useProductStore = defineStore("product", () => {
+    // Les constantes :
     const API_BASE_URL = "http://localhost:7777";
     const favorites = ref([]);
     const history = ref([]);
 
+    // Les méthodes :
+
+    // Fonction pour récupérer les infos d'un produit dans l'API openfoodfacts.
     const fetchProductData = async (param) => {
         const response = await axios.get(`https://world.openfoodfacts.org/api/v2/product/${param}.json`);
         const data = response.data.product;
@@ -27,12 +30,16 @@ export const useProductStore = defineStore("product", () => {
         return productInfos;
     };
 
+    // Fonction pour récupérer les favoris d'un utilisateur et les stocker dans un tableau 'favorites'
     const fetchAllFavorites = async () => {
         try {
+            // On vide le tableau favoris
             favorites.value = [];
+            // On recupère les codes barres stockés dans la BDD
             const result = await axios.get(`${API_BASE_URL}/favorites/getAll`);
             console.log(result.data);
             const barcodes = result.data;
+            // On crée une boucle qui, pour chaque code-barres va call la fonction 'fetchProductData' puis pousser les datas dans le tableau.
             for (let i = 0; i < barcodes.length; i++) {
                 const infos = await fetchProductData(barcodes[i]);
                 favorites.value.push(infos);
@@ -42,11 +49,13 @@ export const useProductStore = defineStore("product", () => {
         }
     };
 
+    // Fonction pour ajouter un produit aux favoris.
     const addToFavorites = async (barcode) => {
         try {
             const result = await axios.post(`${API_BASE_URL}/favorites/add`, { barcode });
             if (result.status === 201) {
                 console.log("produit ajouté aux fav");
+                // Une fois que le produit est ajouté à la database on refetch les favoris pour mettre à jour le store.
                 fetchAllFavorites();
             }
         } catch (error) {
@@ -54,20 +63,22 @@ export const useProductStore = defineStore("product", () => {
         }
     };
 
+    // Fonction pour supprimer un favori.
     const removeFromFavorites = async (param) => {
         try {
-            console.log(param);
-
+            // On utilise le verbe http 'delete'
             const result = await axios.delete(`${API_BASE_URL}/favorites/delete`, { data: { param } });
             if (result.status === 200) {
                 console.log("Produit supprimé des favoris.");
+                // Si la suppression en BDD est réussi on fait un refetch des favoris pour mettre à jour le store.
                 fetchAllFavorites();
             }
         } catch (error) {
             console.log(error);
         }
     };
-
+    
+    // Les fonctions suivantes sont construites la même manière mais s'applique à l'historique.
     const fetchAllHistories = async () => {
         try {
             history.value = [];
@@ -103,7 +114,6 @@ export const useProductStore = defineStore("product", () => {
             }
         } catch (error) {
             console.log(error);
-            
         }
     };
 

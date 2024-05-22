@@ -1,4 +1,5 @@
 <script setup>
+// On importe les components.
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import Profile from "../components/Profile.vue";
@@ -13,6 +14,7 @@ const showForm = ref("");
 </script>
 
 <template>
+    <!-- L'affichage de cette view est basé sur du rendu conditionnel. Si un utilisateur est connecté on affiche ses infos.Sinon on donne le choix de s'inscrire ou de se connecter à l'app. -->
     <Profile v-if="currentUser" />
     <div v-else>
         <div v-if="showForm === ''">

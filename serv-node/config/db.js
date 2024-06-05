@@ -1,8 +1,7 @@
 // On importe Sequelize, qui est un ORM de Node.js, il va nous permettre de créer nos modèles, nos controleurs, les tables dans la BDD et de générer notre CRUD.
 const { Sequelize } = require("sequelize");
 
-// On se connecte à la database en passant en paramètres : "nom_de_la_db", "nom_utilisateur", "mot_de_passe".
-const sequelize = new Sequelize("greeneats", "root", "root",  {
+const sequelize = new Sequelize("greeneats2", "root", "12345",  {
     dialect: "mysql",
     host: "localhost",
 });
